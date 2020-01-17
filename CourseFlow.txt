@@ -1,0 +1,30 @@
+AI
+Data Science
+- Data Collection - Web Crawling, API (JSON), Database...
+- Data Analysis
+  - Data Cleaning
+  - Statistical Analysis
+  - Data Visualization
+  - Data Preprocessing
+Predictive Modelling
+  - Machine Learning = Programming + Math
+  - Optimization
+
+Image Processing
+- Object Detection and Recognition
+- OCR
+Text Processing (NLP - Natural Language Processing)
+- Spam Classification
+- Sentiment Analysis
+- Chatbot
+Recommendation Engine
+
+Data Collection - bs4
+Data Analysis - Numpy, Pandas
+Data Visualization - Matplotlib, Seaborn
+Machine Learning - sklearn
+	- Math
+	- Python
+	- package
+NLP - NLTK => Natural Language Toolkit
+Image - Opencv
