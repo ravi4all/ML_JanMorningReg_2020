@@ -51,30 +51,66 @@ def accuracy_metrics(actual,prediction):
     return count/len(actual) * 100
 
 def gradientDescent(x_train,y_train,epochs,alpha):
-    coef = np.zeros(x_train.shape[1] - 1)
+    coef = np.zeros(x_train.shape[1] + 1)
+    n = len(x_train)
     for i in range(epochs):
+        predictions = []
         for j in range(len(x_train)):
             pred = predict(x_train[j],coef)
             error = pred - y_train[j]
             coef[0] = coef[0] - alpha * (1/n) * np.sum(error)
-            for k in range(len(x_train) - 1):
-                coef[k+1] = coef[k+1] - alpha * np.dot(x_train[k],coef[k+1])            
+            for k in range(len(x_train[0] - 1)):
+                coef[k+1] = coef[k+1] - alpha * (1/n) * np.dot(x_train[j][k],error)
+
+        print("{} Epochs Completed".format(i))
+        '''
+        if i % 10 == 0:
+            for row in x_train:
+                pred = predict(row,coef)
+                predictions.append(round(pred))
+            accuracy = accuracy_metrics(y_train,predictions)
+            print("Accuracy is",accuracy)
+        '''
     return coef
 
-def logistic(x_train,x_test,y_train_y_test):
+def evaluateAlgorithm(epochs,alpha):
+    folds = cross_validation()
+    scores = []
+    for fold in folds:
+        x_train = []
+        y_train = []
+        x_test = []
+        y_test = []
+        train = list(folds)
+        train.remove(fold)
+        for train_fold in train:
+            for data in train_fold:
+                x_train.append(data[:-1])
+                y_train.append(data[-1])
+        
+        for data in fold:
+            x_test.append(data[:-1])
+            y_test.append(data[-1])
+        x_train = np.asarray(x_train)
+        x_test = np.asarray(x_test)
+        y_train = np.asarray(y_train)
+        y_test = np.asarray(y_test)
+        score = logistic(x_train,y_train,x_test,y_test,epochs,alpha)
+        print("Score is",score)
+        scores.append(score)
+        return scores
+    
+def logistic(x_train,y_train,x_test,y_test,epochs,alpha):
     coef = gradientDescent(x_train,y_train,epochs,alpha)
     predictions = []
     for row in x_test:
         pred = predict(row,coef)
         predictions.append(round(pred))
-    accuracy = accuracy_metrics(y_train,predictions)
+    accuracy = accuracy_metrics(y_test,predictions)
+    return accuracy
 
-def evaluateAlgorithm():
-    pass
+epochs = 1000
+alpha = 0.01
 
-
-
-
-
-
-
+scores = evaluateAlgorithm(epochs,alpha)
+print(scores)
