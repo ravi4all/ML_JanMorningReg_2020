@@ -3,6 +3,7 @@ import numpy as np
 import random
 import pandas as pd
 import copy
+import pickle as pkl
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder, OneHotEncoder
 
 dataset = pd.read_csv('Churn_Modelling.csv')
@@ -102,6 +103,9 @@ def evaluateAlgorithm(epochs,alpha):
     
 def logistic(x_train,y_train,x_test,y_test,epochs,alpha):
     coef = gradientDescent(x_train,y_train,epochs,alpha)
+    file = open('weights.pkl','wb')
+    pkl.dump(coef,file)
+    file.close()
     predictions = []
     for row in x_test:
         pred = predict(row,coef)
@@ -109,7 +113,7 @@ def logistic(x_train,y_train,x_test,y_test,epochs,alpha):
     accuracy = accuracy_metrics(y_test,predictions)
     return accuracy
 
-epochs = 1000
+epochs = 50
 alpha = 0.01
 
 scores = evaluateAlgorithm(epochs,alpha)
